@@ -1,28 +1,27 @@
 # Status
 
-This package is currently an **alpha safe MVP**.
+Current release status: **v1.0 automatic deliverable**.
 
 ## Safe for customer installation?
 
-Yes, for manual pilot installation and review.
+Yes, if installed with the documented opt-in commands.
 
-The package does not automatically modify OpenClaw runtime behavior after install. It creates files and scripts only.
+The automatic components are reversible:
 
-## Not production-automatic yet
+- Hooks can be disabled with `openclaw hooks disable`.
+- Nightly scheduler can be unloaded with `launchctl unload` on macOS.
+- Profile changes can be reverted with `rollback_profile.py`.
 
-The following are intentionally not enabled in v0.1.0:
+## Included automatic components
 
-- automatic message/session monitoring
-- runtime hook injection
-- nightly cron scheduling
-- customer setup wizard
+- `company-adaptive-logger`: records redacted usage events from `message:received` and `message:sent`.
+- `company-adaptive-bootstrap`: injects bounded adaptive profile context during `agent:bootstrap`.
+- `nightly_company_adaptive.sh`: runs nightly learning, self-repair, adoption report, low-risk apply, and validation.
 
-## Production readiness gate
+## Production safety boundaries
 
-Before enabling for customers as an automatic system, verify:
-
-- hook writes usage events correctly
-- runtime loader only injects relevant profile snippets
-- nightly job never writes high-risk fields
-- rollback restores the previous profile tree
-- the same test events produce deterministic applied profiles across multiple LLMs
+- LLMs do not directly edit official profiles.
+- All writes go through deterministic scripts.
+- High-risk paths are rejected or pending.
+- Sensitive raw details are redacted / summarized.
+- Hooks and cron are opt-in and can be disabled.

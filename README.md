@@ -5,30 +5,20 @@
 
 ## Current status
 
-**Alpha / safe MVP.** This repository is safe to install because the first version only creates profile folders, templates, schemas, and deterministic scripts. It does **not** automatically enable OpenClaw runtime hooks or cron jobs.
+**v1.0 automatic deliverable.** The package includes deterministic profile scripts, internal hook pack, opt-in runtime profile loader, opt-in message logger, and opt-in nightly scheduler installer.
 
 What works now:
 
 - Manual profile tree installation
 - Profile structure validation
-- Usage event logging by explicit script call
-- Nightly diff generation by explicit script call
-- Low-risk diff apply / reject gate
+- Usage event logging by hook or explicit script call
+- Runtime bounded profile injection via bootstrap hook
+- Nightly diff generation by scheduler or explicit script call
+- Low-risk diff apply / high-risk reject gate
 - Profile snapshot and rollback script
-- Local OpenClaw skill instructions
+- Release test runner and hook event test
 
-Not enabled yet:
-
-- Automatic Discord/message monitoring
-- Runtime prompt/profile injection hooks
-- Scheduled cron execution
-- Production customer wizard
-
-Customer install guidance:
-
-- OK for pilot setup, schema review, and manual testing.
-- Do not sell/describe it as fully automatic until hooks + cron pass integration tests.
-- To avoid model-dependent behavior, keep all writes routed through scripts; do not ask an LLM to edit profiles directly.
+Important: hooks and cron are opt-in. This is intentional so customer installs remain reversible. After enabling hooks, restart OpenClaw Gateway once for newly discovered hooks to load.
 
 ## Modes
 
