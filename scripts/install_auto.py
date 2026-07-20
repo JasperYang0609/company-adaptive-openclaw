@@ -67,7 +67,8 @@ def main():
     ap = argparse.ArgumentParser(description="Install automatic hooks/cron for company-adaptive-openclaw")
     ap.add_argument("--workspace", required=True)
     ap.add_argument("--install-hooks", action="store_true")
-    ap.add_argument("--enable-hooks", action="store_true")
+    ap.add_argument("--enable-hooks", action="store_true", help="Enable safe default hooks: logger only")
+    ap.add_argument("--enable-bootstrap", action="store_true", help="Experimental: enable runtime bootstrap profile injection")
     ap.add_argument("--install-cron", action="store_true", help="Create nightly runner script")
     ap.add_argument("--enable-cron", action="store_true", help="Register nightly scheduler after creating runner")
     ap.add_argument("--hour", type=int, default=3)
@@ -76,7 +77,7 @@ def main():
     args = ap.parse_args()
     workspace = Path(args.workspace).expanduser().resolve()
 
-    if args.install_hooks or args.enable_hooks:
+    if args.install_hooks or args.enable_hooks or args.enable_bootstrap:
         hooks_dir = workspace / "hooks"
         for name in ["company-adaptive-logger", "company-adaptive-bootstrap"]:
             src = REPO / "hooks" / name
@@ -90,7 +91,13 @@ def main():
 
     if args.enable_hooks:
         run(["openclaw", "hooks", "enable", "company-adaptive-logger"], args.dry_run)
+        print("Safe default enabled: company-adaptive-logger only.")
+        print("Bootstrap runtime injection remains disabled unless --enable-bootstrap is explicitly passed.")
+        print("NOTE: restart OpenClaw gateway once for newly discovered hooks to load.")
+
+    if args.enable_bootstrap:
         run(["openclaw", "hooks", "enable", "company-adaptive-bootstrap"], args.dry_run)
+        print("EXPERIMENTAL bootstrap hook enabled. Use only after customer approval and canary testing.")
         print("NOTE: restart OpenClaw gateway once for newly discovered hooks to load.")
 
     if args.install_cron or args.enable_cron:
@@ -101,8 +108,8 @@ def main():
             else:
                 print("Non-macOS scheduler registration is not automatic yet. Add runner to crontab manually.")
 
-    if not (args.install_hooks or args.enable_hooks or args.install_cron or args.enable_cron):
-        print("Nothing selected. Use --install-hooks, --enable-hooks, --install-cron, and/or --enable-cron.")
+    if not (args.install_hooks or args.enable_hooks or args.enable_bootstrap or args.install_cron or args.enable_cron):
+        print("Nothing selected. Use --install-hooks, --enable-hooks, --enable-bootstrap, --install-cron, and/or --enable-cron.")
 
 
 if __name__ == "__main__":

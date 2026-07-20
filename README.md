@@ -5,14 +5,14 @@
 
 ## Current status
 
-**v1.0 automatic deliverable.** The package includes deterministic profile scripts, internal hook pack, opt-in runtime profile loader, opt-in message logger, and opt-in nightly scheduler installer.
+**v1.0 automatic deliverable.** The package includes deterministic profile scripts, internal hook pack, experimental opt-in runtime profile loader, safe-default opt-in message logger, experimental bootstrap loader, and opt-in nightly scheduler installer.
 
 What works now:
 
 - Manual profile tree installation
 - Profile structure validation
 - Usage event logging by hook or explicit script call
-- Runtime bounded profile injection via bootstrap hook
+- Runtime bounded profile injection via experimental bootstrap hook; disabled by default
 - Nightly diff generation by scheduler or explicit script call
 - Low-risk diff apply / high-risk reject gate
 - Profile snapshot and rollback script

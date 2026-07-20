@@ -9,6 +9,7 @@ python3 scripts/run_tests.py
 node tests/hook_event_test.mjs
 python3 scripts/install_auto.py --workspace /tmp/company-adaptive-release --install-hooks --install-cron --dry-run
 python3 scripts/install_auto.py --workspace /tmp/company-adaptive-release --install-hooks --enable-hooks --install-cron --enable-cron --dry-run
+python3 scripts/install_auto.py --workspace /tmp/company-adaptive-release --install-hooks --enable-bootstrap --dry-run
 ```
 
 ## Customer install command
@@ -20,10 +21,16 @@ python3 scripts/install_profile_tree.py --workspace "$HOME/.openclaw/workspace" 
 python3 scripts/validate_profiles.py --workspace "$HOME/.openclaw/workspace"
 ```
 
-Automatic setup, opt-in:
+Automatic setup, safe default opt-in:
 
 ```bash
 python3 scripts/install_auto.py --workspace "$HOME/.openclaw/workspace" --install-hooks --enable-hooks --install-cron --enable-cron
+```
+
+Experimental bootstrap profile injection, only after canary approval:
+
+```bash
+python3 scripts/install_auto.py --workspace "$HOME/.openclaw/workspace" --install-hooks --enable-bootstrap
 ```
 
 After enabling hooks, restart OpenClaw Gateway once so hooks are loaded.
