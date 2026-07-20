@@ -1,8 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import os from "node:os";
 
 function workspaceDir(event) {
-  return event?.context?.workspaceDir || process.env.OPENCLAW_WORKSPACE_DIR || process.env.OPENCLAW_WORKSPACE || process.cwd();
+  const explicit = event?.context?.workspaceDir || process.env.OPENCLAW_WORKSPACE_DIR || process.env.OPENCLAW_WORKSPACE;
+  if (explicit) return explicit;
+  const standardWorkspace = path.join(os.homedir(), ".openclaw", "workspace");
+  return standardWorkspace;
 }
 
 async function readIfExists(file, max = 1800) {

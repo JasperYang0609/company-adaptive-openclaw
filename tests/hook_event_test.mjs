@@ -20,4 +20,10 @@ await bootstrap(event);
 assert.equal(event.context.bootstrapFiles.length, 1);
 assert.equal(event.context.bootstrapFiles[0].name, 'BOOTSTRAP.md');
 assert.match(event.context.bootstrapFiles[0].content, /Adaptive OpenClaw Runtime Context/);
+
+// fallback env workspace
+process.env.OPENCLAW_WORKSPACE_DIR = tmp;
+await logger({ type: 'message', action: 'received', sessionKey: 's2', timestamp: new Date(), messages: [], context: { content: '請用表格', channelId: 'c2', metadata: { senderId: '789', provider: 'discord' } } });
+const log2 = await fs.readFile(path.join(tmp, 'adaptive-openclaw/events/usage_events.jsonl'), 'utf8');
+assert.match(log2, /"sender_id":"789"/);
 console.log('PASS hook_event_test');

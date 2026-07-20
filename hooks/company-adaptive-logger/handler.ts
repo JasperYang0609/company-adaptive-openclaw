@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import os from "node:os";
 import crypto from "node:crypto";
 
 const REDACT_PATTERNS = [
@@ -9,7 +10,10 @@ const REDACT_PATTERNS = [
 ];
 
 function workspaceDir(event) {
-  return event?.context?.workspaceDir || process.env.OPENCLAW_WORKSPACE_DIR || process.env.OPENCLAW_WORKSPACE || process.cwd();
+  const explicit = event?.context?.workspaceDir || process.env.OPENCLAW_WORKSPACE_DIR || process.env.OPENCLAW_WORKSPACE;
+  if (explicit) return explicit;
+  const standardWorkspace = path.join(os.homedir(), ".openclaw", "workspace");
+  return standardWorkspace;
 }
 
 function redact(text) {
