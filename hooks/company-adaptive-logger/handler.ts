@@ -54,16 +54,18 @@ async function appendJsonl(file, obj) {
 export default async function handler(event) {
   try {
     const ctx = event.context || {};
-    if (event.type === "channel" && event.action === "created") {
+    if ((event.type === "channel" || event.type === "thread") && event.action === "created") {
       const obj = {
         event_id: "evt_" + crypto.randomUUID().replaceAll("-", "").slice(0, 12),
         timestamp: event.timestamp instanceof Date ? event.timestamp.toISOString() : new Date().toISOString(),
         platform: ctx.metadata?.provider || ctx.provider || "discord",
         session_key: event.sessionKey || "unknown",
-        channel_id: String(ctx.channelId || ctx.id || ctx.to || "unknown"),
-        event_action: "channel_created",
+        channel_id: String(ctx.threadId || ctx.channelId || ctx.id || ctx.to || "unknown"),
+        parent_channel_id: String(ctx.parentChannelId || ctx.parentId || ctx.channelId || ""),
+        surface_type: event.type === "thread" ? "thread" : "channel",
+        event_action: event.type === "thread" ? "thread_created" : "channel_created",
         sender_id: String(ctx.metadata?.senderId || ctx.createdByUserId || ctx.createdBy || ctx.from || "unknown"),
-        channel_name: safeString(ctx.channelName || ctx.name),
+        channel_name: safeString(ctx.threadName || ctx.channelName || ctx.name),
         channel_category: safeString(ctx.channelCategory || ctx.parentName || ctx.category),
         creator_role: safeString(ctx.creatorRole || ctx.role),
         creator_position: safeString(ctx.creatorPosition || ctx.position),
@@ -81,7 +83,9 @@ export default async function handler(event) {
       timestamp: event.timestamp instanceof Date ? event.timestamp.toISOString() : new Date().toISOString(),
       platform: ctx.metadata?.provider || ctx.provider || "unknown",
       session_key: event.sessionKey || "unknown",
-      channel_id: String(ctx.channelId || ctx.to || "unknown"),
+      channel_id: String(ctx.threadId || ctx.channelId || ctx.to || "unknown"),
+      parent_channel_id: String(ctx.parentChannelId || ctx.parentId || ctx.channelId || ""),
+      surface_type: ctx.threadId ? "thread" : "channel",
       channel_name: safeString(ctx.channelName || ctx.name, ""),
       channel_category: safeString(ctx.channelCategory || ctx.parentName || ctx.category, ""),
       creator_role: safeString(ctx.creatorRole || ctx.metadata?.role, ""),

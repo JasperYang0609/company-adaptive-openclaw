@@ -50,7 +50,7 @@ This gives users the feeling that OpenClaw immediately remembers preferences wit
 
 ## v1.2 Channel Onboarding Agent
 
-This package now supports a channel-level adaptive layer for customer Discord onboarding.
+This package now supports a channel-level adaptive layer for customer Discord channel/thread onboarding.
 
 Core idea:
 

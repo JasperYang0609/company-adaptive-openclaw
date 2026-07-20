@@ -53,6 +53,8 @@ def build_profile(args) -> str:
     return f'''---
 schema: channel_profile.v1
 platform: discord
+surface_type: "{args.surface_type}"
+parent_channel_id: "{args.parent_channel_id}"
 channel_id: "{args.channel_id}"
 channel_name: "{redact(args.channel_name, 120)}"
 channel_category: "{redact(args.channel_category, 120)}"
@@ -72,6 +74,8 @@ last_reviewed_at: "{now}"
 - basis: channel name/category/initial description + creator role/position
 
 ## Creator context
+- surface_type: {args.surface_type}
+- parent_channel_id: {args.parent_channel_id or "none"}
 - user_id: {args.created_by_user_id}
 - identity / role: {redact(args.creator_role, 80)}
 - position: {redact(args.creator_position, 120)}
@@ -90,7 +94,7 @@ last_reviewed_at: "{now}"
 - 尚未觀察
 
 ## Recommended next workflow
-- 啟動頻道安裝精靈：先確認角色，再用「我可以協助你哪些問題」選單引導，最後產出第一版可見成果。
+- 啟動頻道/討論串安裝精靈：先確認角色，再用「我可以協助你哪些問題」選單引導，最後產出第一版可見成果。
 
 ## Optimization rule
 - Do not ask the user to invent prompts from scratch.
@@ -109,6 +113,8 @@ def main():
     ap = argparse.ArgumentParser(description="Create or update a channel onboarding profile")
     ap.add_argument("--workspace", required=True)
     ap.add_argument("--channel-id", required=True)
+    ap.add_argument("--surface-type", choices=["channel", "thread"], default="channel")
+    ap.add_argument("--parent-channel-id", default="")
     ap.add_argument("--channel-name", default="")
     ap.add_argument("--channel-category", default="")
     ap.add_argument("--created-by-user-id", required=True)

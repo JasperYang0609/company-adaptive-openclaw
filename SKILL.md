@@ -33,7 +33,7 @@ Do not directly edit official profiles from free-form reasoning. Use determinist
 
 ## Channel onboarding layer
 
-Use the channel onboarding layer when a customer creates a new Discord channel or asks how a channel should use OpenClaw.
+Use the channel onboarding layer when a customer creates a new Discord channel/thread or asks how a channel should use OpenClaw.
 
 Rules:
 

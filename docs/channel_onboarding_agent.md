@@ -2,15 +2,15 @@
 
 ## Purpose
 
-The Channel Onboarding Agent turns a newly created Discord channel into a guided, role-aware OpenClaw workflow entry point.
+The Channel Onboarding Agent turns a newly created Discord channel or thread into a guided, role-aware OpenClaw workflow entry point.
 
 It must not ask customers to invent prompts or state a mature AI strategy upfront. Many customer-side managers and staff do not yet know what AI can help with. The agent should infer, offer options, produce a first visible artifact, then learn from corrections.
 
 ## Trigger
 
-When a new customer Discord channel is created, log or create a channel onboarding profile with:
+When a new customer Discord channel or discussion thread is created, log or create a channel onboarding profile with:
 
-- channel id, name, category, and initial description/topic
+- channel/thread id, parent channel id when available, name, category, and initial description/topic
 - creator user id
 - creator identity / role / position
 - permission boundary when available
@@ -61,10 +61,10 @@ Identity, permission, RLS, secrets, and sensitive raw details must never auto-ap
 
 ```mermaid
 flowchart TD
-  A[Customer creates a new Discord channel] --> B[OpenClaw starts Channel Onboarding Agent]
+  A[Customer creates a new Discord channel or discussion thread] --> B[OpenClaw starts Channel Onboarding Agent]
 
   B --> C[Collect safe baseline context]
-  C --> C1[Channel name / category]
+  C --> C1[Channel/thread name / category]
   C --> C2[Creator user id]
   C --> C3[Creator identity / position / permission boundary]
   C --> C4[Initial topic, description, or first messages]
@@ -107,4 +107,9 @@ flowchart TD
 
 ### Flow principle
 
-When a new channel is created, OpenClaw should not ask `What do you want to do?` first. It should infer the likely purpose from the channel, creator identity, position, and permission boundary; then offer role-aware options, produce a visible artifact, and let the user confirm or correct from there.
+When a new channel or discussion thread is created, OpenClaw should not ask `What do you want to do?` first. It should infer the likely purpose from the channel, creator identity, position, and permission boundary; then offer role-aware options, produce a visible artifact, and let the user confirm or correct from there.
+
+
+## Discussion thread behavior
+
+Discussion threads should use the same onboarding flow as channels. The profile key should use the thread id, while preserving the parent channel id when available. This avoids treating every thread as a blank chat and lets OpenClaw infer whether the thread is a sub-workflow, a project branch, or a temporary discussion under an existing channel.

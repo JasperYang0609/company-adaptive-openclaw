@@ -1,6 +1,8 @@
 ---
 schema: channel_profile.v1
 platform: discord
+surface_type: channel
+parent_channel_id: ""
 channel_id: "template"
 channel_name: "待補"
 channel_category: "待補"
@@ -18,6 +20,8 @@ last_reviewed_at: "待補"
 - 待補
 
 ## Creator context
+- surface_type: channel
+- parent_channel_id: 待補
 - user_id: 待補
 - identity / role: 待補
 - position: 待補

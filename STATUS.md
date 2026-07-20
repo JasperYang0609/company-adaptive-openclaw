@@ -39,7 +39,7 @@ The automatic components are reversible:
 
 ## v1.2 Channel Onboarding Agent
 
-Added first-class channel profile support for customer Discord onboarding:
+Added first-class channel profile support for customer Discord channel/thread onboarding:
 
 - `channel_profile.v1` template and schema
 - deterministic `bootstrap_channel_onboarding.py`

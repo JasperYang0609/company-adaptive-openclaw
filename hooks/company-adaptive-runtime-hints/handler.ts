@@ -24,7 +24,7 @@ function hintsPath(root, sid) {
 
 function channelId(event) {
   const ctx = event?.context || {};
-  return String(ctx.channelId || ctx.to || "").replace(/[^0-9A-Za-z_-]/g, "");
+  return String(ctx.threadId || ctx.channelId || ctx.to || "").replace(/[^0-9A-Za-z_-]/g, "");
 }
 
 function channelProfilePath(root, cid) {

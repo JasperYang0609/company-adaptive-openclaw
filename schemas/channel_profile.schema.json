@@ -6,6 +6,8 @@
   "properties": {
     "schema": {"const": "channel_profile.v1"},
     "platform": {"type": "string"},
+    "surface_type": {"enum": ["channel", "thread"]},
+    "parent_channel_id": {"type": "string"},
     "channel_id": {"type": "string", "minLength": 1},
     "channel_name": {"type": "string"},
     "channel_category": {"type": "string"},

@@ -14,10 +14,11 @@ await fs.writeFile(path.join(tmp, 'adaptive-openclaw/profiles/company.md'), '---
 await fs.writeFile(path.join(tmp, 'adaptive-openclaw/profiles/users/discord_123456.md'), '---\nschema: user_profile.v1\n---\n# User\n- prefers tables\n');
 await fs.writeFile(path.join(tmp, 'adaptive-openclaw/profiles/workflows/_template.md'), '---\nschema: workflow_profile.v1\n---\n# Workflow\n- validate outputs\n');
 await fs.writeFile(path.join(tmp, 'adaptive-openclaw/profiles/channels/discord_c1.md'), '---\nschema: channel_profile.v1\n---\n# Channel\n- offer role-aware options before asking for prompts\n');
-await logger({ type: 'channel', action: 'created', sessionKey: 's0', timestamp: new Date(), messages: [], context: { workspaceDir: tmp, channelId: 'c0', channelName: '客服', createdByUserId: '123456', creatorRole: '主管', creatorPosition: '客服主管', metadata: { provider: 'discord' } } });
+await logger({ type: 'thread', action: 'created', sessionKey: 's0', timestamp: new Date(), messages: [], context: { workspaceDir: tmp, threadId: 'c0', channelId: 'parent1', threadName: '客服討論串', createdByUserId: '123456', creatorRole: '主管', creatorPosition: '客服主管', metadata: { provider: 'discord' } } });
 await logger({ type: 'message', action: 'received', sessionKey: 's1', timestamp: new Date(), messages: [], context: { workspaceDir: tmp, content: '請用表格，不要太長 token ghp_1234567890abcdef', channelId: 'c1', metadata: { senderId: '123456', provider: 'discord' } } });
 const log = await fs.readFile(path.join(tmp, 'adaptive-openclaw/events/usage_events.jsonl'), 'utf8');
-assert.match(log, /"event_action":"channel_created"/);
+assert.match(log, /"event_action":"thread_created"/);
+assert.match(log, /"surface_type":"thread"/);
 assert.match(log, /"sender_id":"123456"/);
 assert.doesNotMatch(log, /ghp_1234567890abcdef/);
 const event = { type: 'agent', action: 'bootstrap', sessionKey: 'discord_123456', timestamp: new Date(), messages: [], context: { workspaceDir: tmp, channelId: 'c1', bootstrapFiles: [] } };
