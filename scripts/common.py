@@ -21,7 +21,12 @@ def write_json(path: Path, data):
 def snapshot(workspace: str | Path) -> Path:
     r = root(workspace)
     ts = time.strftime("%Y%m%d_%H%M%S")
-    dest = r / "history" / "profiles" / ts
+    base = r / "history" / "profiles" / ts
+    dest = base
+    i = 1
+    while dest.exists():
+        i += 1
+        dest = r / "history" / "profiles" / f"{ts}_{i}"
     for name in ["profiles"]:
         src = r / name
         if src.exists():

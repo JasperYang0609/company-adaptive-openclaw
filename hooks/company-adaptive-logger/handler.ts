@@ -22,6 +22,11 @@ function redact(text) {
   return value;
 }
 
+function safeString(value, fallback = "unknown") {
+  const s = String(value || "").trim();
+  return s ? redact(s).slice(0, 240) : fallback;
+}
+
 function taskType(content) {
   const lower = String(content || "").toLowerCase();
   if (/notion|資料庫|db/.test(lower)) return "notion_or_database";
@@ -48,8 +53,28 @@ async function appendJsonl(file, obj) {
 
 export default async function handler(event) {
   try {
-    if (event.type !== "message") return;
     const ctx = event.context || {};
+    if (event.type === "channel" && event.action === "created") {
+      const obj = {
+        event_id: "evt_" + crypto.randomUUID().replaceAll("-", "").slice(0, 12),
+        timestamp: event.timestamp instanceof Date ? event.timestamp.toISOString() : new Date().toISOString(),
+        platform: ctx.metadata?.provider || ctx.provider || "discord",
+        session_key: event.sessionKey || "unknown",
+        channel_id: String(ctx.channelId || ctx.id || ctx.to || "unknown"),
+        event_action: "channel_created",
+        sender_id: String(ctx.metadata?.senderId || ctx.createdByUserId || ctx.createdBy || ctx.from || "unknown"),
+        channel_name: safeString(ctx.channelName || ctx.name),
+        channel_category: safeString(ctx.channelCategory || ctx.parentName || ctx.category),
+        creator_role: safeString(ctx.creatorRole || ctx.role),
+        creator_position: safeString(ctx.creatorPosition || ctx.position),
+        initial_description_summary: redact(ctx.description || ctx.topic || ctx.initialDescription || "").slice(0, 500),
+        task_type: "channel_onboarding",
+      };
+      const file = path.join(workspaceDir(event), "adaptive-openclaw", "events", "usage_events.jsonl");
+      await appendJsonl(file, obj);
+      return;
+    }
+    if (event.type !== "message") return;
     const content = ctx.content || "";
     const base = {
       event_id: "evt_" + crypto.randomUUID().replaceAll("-", "").slice(0, 12),
@@ -57,6 +82,10 @@ export default async function handler(event) {
       platform: ctx.metadata?.provider || ctx.provider || "unknown",
       session_key: event.sessionKey || "unknown",
       channel_id: String(ctx.channelId || ctx.to || "unknown"),
+      channel_name: safeString(ctx.channelName || ctx.name, ""),
+      channel_category: safeString(ctx.channelCategory || ctx.parentName || ctx.category, ""),
+      creator_role: safeString(ctx.creatorRole || ctx.metadata?.role, ""),
+      creator_position: safeString(ctx.creatorPosition || ctx.metadata?.position, ""),
       event_action: event.action,
     };
     let obj;

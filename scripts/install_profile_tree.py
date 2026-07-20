@@ -25,6 +25,7 @@ def main():
         r/"profiles/departments/_template.md": (TEMPLATES/"department_profile.md").read_text(),
         r/"profiles/users/_template.md": (TEMPLATES/"user_profile.md").read_text(),
         r/"profiles/workflows/_template.md": (TEMPLATES/"workflow_profile.md").read_text(),
+        r/"profiles/channels/_template.md": (TEMPLATES/"channel_profile.md").read_text(),
         r/"events/usage_events.jsonl": "",
         r/"diffs/pending/.keep": "",
         r/"diffs/applied/.keep": "",

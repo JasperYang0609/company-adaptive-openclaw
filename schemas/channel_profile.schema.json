@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "channel_profile.v1",
+  "type": "object",
+  "required": ["schema", "platform", "channel_id", "channel_name", "created_by_user_id", "creator_role", "inferred_channel_purpose", "confidence"],
+  "properties": {
+    "schema": {"const": "channel_profile.v1"},
+    "platform": {"type": "string"},
+    "channel_id": {"type": "string", "minLength": 1},
+    "channel_name": {"type": "string"},
+    "channel_category": {"type": "string"},
+    "created_by_user_id": {"type": "string"},
+    "creator_role": {"type": "string"},
+    "creator_position": {"type": "string"},
+    "permission_boundary": {"type": "string"},
+    "initial_description_summary": {"type": "string"},
+    "inferred_channel_purpose": {"type": "string"},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "selected_options": {"type": "array", "items": {"type": "string"}},
+    "generated_artifacts": {"type": "array", "items": {"type": "string"}},
+    "accepted_outcomes": {"type": "array", "items": {"type": "string"}},
+    "corrections": {"type": "array", "items": {"type": "string"}},
+    "blocked_points": {"type": "array", "items": {"type": "string"}},
+    "recommended_next_workflow": {"type": "string"},
+    "last_reviewed_at": {"type": "string"}
+  },
+  "additionalProperties": false
+}

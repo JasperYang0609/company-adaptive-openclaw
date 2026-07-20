@@ -4,7 +4,7 @@
   "type": "object",
   "required": ["target_type", "target_id", "operation", "path", "value", "risk_level", "confidence", "evidence_count", "evidence_summary", "auto_apply"],
   "properties": {
-    "target_type": {"enum": ["company_profile", "department_profile", "user_profile", "workflow_profile"]},
+    "target_type": {"enum": ["company_profile", "department_profile", "user_profile", "workflow_profile", "channel_profile"]},
     "target_id": {"type": "string", "minLength": 1},
     "operation": {"enum": ["upsert_preference", "append_rule", "append_prompt", "append_repair_note", "set_field"]},
     "path": {"type": "string", "minLength": 1},

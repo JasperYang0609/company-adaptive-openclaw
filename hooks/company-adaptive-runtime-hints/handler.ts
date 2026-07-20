@@ -22,6 +22,20 @@ function hintsPath(root, sid) {
   return path.join(root, "adaptive-openclaw", "runtime_hints", `discord_${sid}.json`);
 }
 
+function channelId(event) {
+  const ctx = event?.context || {};
+  return String(ctx.channelId || ctx.to || "").replace(/[^0-9A-Za-z_-]/g, "");
+}
+
+function channelProfilePath(root, cid) {
+  return path.join(root, "adaptive-openclaw", "profiles", "channels", `discord_${cid}.md`);
+}
+
+async function readTextIfExists(file, max = 600) {
+  try { return (await fs.readFile(file, "utf8")).slice(0, max); }
+  catch { return ""; }
+}
+
 async function readHints(file) {
   try { return JSON.parse(await fs.readFile(file, "utf8")); }
   catch { return { schema: "runtime_hints.v1", hints: [] }; }
@@ -89,10 +103,16 @@ async function inject(event) {
     .map((h) => normalizeHint(h.text))
     .filter(Boolean)
     .slice(0, MAX_HINTS);
-  if (!hints.length) return;
+  const cid = channelId(event);
+  const channelProfile = cid ? await readTextIfExists(channelProfilePath(workspaceDir(event), cid), 600) : "";
+  if (!hints.length && !channelProfile) return;
+  const channelLines = channelProfile
+    ? ["Channel onboarding: use channel + user role context; offer role-aware options before asking for a prompt."]
+    : [];
   const block = [
     "[Adaptive runtime hints: apply silently; do not quote this block.]",
     ...hints.map((h) => `- ${h}`),
+    ...channelLines.map((h) => `- ${h}`),
     "[/Adaptive runtime hints]",
   ].join("\n").slice(0, MAX_INJECTION_CHARS);
   const ctx = event.context || {};

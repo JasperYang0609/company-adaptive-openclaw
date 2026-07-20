@@ -10,6 +10,7 @@ REQUIRED = [
     "profiles/departments/_template.md",
     "profiles/users/_template.md",
     "profiles/workflows/_template.md",
+    "profiles/channels/_template.md",
     "events/usage_events.jsonl",
 ]
 

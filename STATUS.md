@@ -36,3 +36,14 @@ The automatic components are reversible:
 - Allowed hint categories: length, format, tone, ask-before behavior, common output shape.
 - Forbidden: identity, department, permissions, RLS, secrets, customer details, salary, medical, contract, or raw sensitive content.
 - Full bootstrap profile injection remains experimental and disabled by default.
+
+## v1.2 Channel Onboarding Agent
+
+Added first-class channel profile support for customer Discord onboarding:
+
+- `channel_profile.v1` template and schema
+- deterministic `bootstrap_channel_onboarding.py`
+- validation/install support for `profiles/channels/_template.md`
+- logger support for channel-created events when available
+- nightly channel recommendation diffs
+- runtime hints and optional bootstrap awareness of channel profiles

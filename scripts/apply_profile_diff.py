@@ -9,6 +9,7 @@ def target_path(r: Path, diff: dict) -> Path:
     if diff["target_type"]=="user_profile": return r/"profiles/users"/(tid+".md")
     if diff["target_type"]=="department_profile": return r/"profiles/departments"/(tid+".md")
     if diff["target_type"]=="workflow_profile": return r/"profiles/workflows"/(tid+".md")
+    if diff["target_type"]=="channel_profile": return r/"profiles/channels"/(tid+".md")
     return r/"profiles/company.md"
 
 def append_rule(path: Path, diff: dict):

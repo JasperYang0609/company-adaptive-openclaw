@@ -47,3 +47,36 @@ User correction -> runtime_hints json -> next message gets at most 5 short hints
 ```
 
 This gives users the feeling that OpenClaw immediately remembers preferences without injecting full profiles into the model context.
+
+## v1.2 Channel Onboarding Agent
+
+This package now supports a channel-level adaptive layer for customer Discord onboarding.
+
+Core idea:
+
+```text
+new channel -> channel profile -> creator role/position -> role-aware assistance menu -> first visible artifact -> nightly optimization
+```
+
+Use cases:
+
+- Detect a new channel's likely scene from name/category/topic.
+- Remember the channel creator's user id, identity, role/position, and bounded context.
+- Avoid asking customers to write prompts from scratch.
+- Ask "依照你的角色，我可以協助你以下問題，你想先從哪個開始？"
+- Produce a first visible artifact, then learn from acceptance/corrections.
+
+Deterministic entry point:
+
+```bash
+python3 scripts/bootstrap_channel_onboarding.py \
+  --workspace /path/to/openclaw/workspace \
+  --channel-id 123456789 \
+  --channel-name "客服" \
+  --created-by-user-id 960433085042798623 \
+  --creator-role "主管" \
+  --creator-position "客服主管" \
+  --initial-description "希望整理客訴與客服回覆"
+```
+
+See `docs/channel_onboarding_agent.md` for the product rules.

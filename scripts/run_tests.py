@@ -14,6 +14,8 @@ def main():
     try:
         run([PY, "scripts/install_profile_tree.py", "--workspace", str(tmp), "--mode", "solo_team", "--company-name", "TestCo"])
         run([PY, "scripts/validate_profiles.py", "--workspace", str(tmp)])
+        run([PY, "scripts/bootstrap_channel_onboarding.py", "--workspace", str(tmp), "--channel-id", "c1", "--channel-name", "客服", "--created-by-user-id", "123", "--creator-role", "主管", "--creator-position", "客服主管", "--initial-description", "整理客訴與客服回覆"] )
+        assert (tmp/"adaptive-openclaw/profiles/channels/discord_c1.md").exists(), "expected channel profile"
         run([PY, "scripts/log_interaction_event.py", "--workspace", str(tmp), "--sender-id", "123", "--channel-id", "c1", "--task-type", "test", "--correction-signal", "請用表格"])
         run([PY, "scripts/log_interaction_event.py", "--workspace", str(tmp), "--sender-id", "123", "--channel-id", "c1", "--task-type", "test", "--correction-signal", "下次用表格"])
         run([PY, "scripts/nightly_learn.py", "--workspace", str(tmp)])

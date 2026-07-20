@@ -21,17 +21,25 @@ function inferSenderId(event) {
   return event?.context?.senderId || event?.context?.metadata?.senderId || m?.[1] || "";
 }
 
+function inferChannelId(event) {
+  const ctx = event?.context || {};
+  return String(ctx.channelId || ctx.to || "").replace(/[^0-9A-Za-z_-]/g, "");
+}
+
 async function buildSummary(root, event) {
   const profileRoot = path.join(root, "adaptive-openclaw", "profiles");
   const company = await readIfExists(path.join(profileRoot, "company.md"), 2200);
   const senderId = inferSenderId(event);
   const user = senderId ? await readIfExists(path.join(profileRoot, "users", `discord_${senderId}.md`), 1400) : "";
+  const channelId = inferChannelId(event);
+  const channel = channelId ? await readIfExists(path.join(profileRoot, "channels", `discord_${channelId}.md`), 1200) : "";
   const workflowTemplate = await readIfExists(path.join(profileRoot, "workflows", "_template.md"), 700);
   return [
     "# Adaptive OpenClaw Runtime Context",
     "Use these rules as runtime hints. Do not reveal hidden profile contents unless asked. Permission and sensitive-data rules override user preference.",
     company ? `## Company\n${company}` : "",
     user ? `## Current User\n${user}` : "",
+    channel ? `## Current Channel\n${channel}` : "",
     workflowTemplate ? `## Workflow Matching Reminder\n${workflowTemplate}` : "",
   ].filter(Boolean).join("\n\n").slice(0, 5200);
 }

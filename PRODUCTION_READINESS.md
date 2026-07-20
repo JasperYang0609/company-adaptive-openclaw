@@ -117,3 +117,15 @@ Exit criteria:
 - v1.0 is the first version that may be described as a customer-deliverable automatic system.
 - Hooks and cron must remain opt-in even after v1.0.
 - Any write to identity, permission, RLS, secrets, external sends, or system config remains deny-by-default.
+
+### v1.2 — Channel Onboarding Agent
+
+Goal: make newly created customer Discord channels self-onboarding.
+
+Acceptance criteria:
+
+- Channel profiles are installed and validated by default.
+- A deterministic script can create a redacted channel profile from channel id/name/category, creator id, creator role/position, permission boundary, and initial description.
+- Runtime hints can detect a channel profile and steer the assistant to offer role-aware options instead of asking for a prompt.
+- Nightly learning can update low-risk channel recommendations from usage events.
+- Identity, permission, RLS, secrets, and sensitive raw details remain deny-by-default and must not auto-apply.
