@@ -79,7 +79,7 @@ def main():
 
     if args.install_hooks or args.enable_hooks or args.enable_bootstrap:
         hooks_dir = workspace / "hooks"
-        for name in ["company-adaptive-logger", "company-adaptive-bootstrap"]:
+        for name in ["company-adaptive-logger", "company-adaptive-runtime-hints", "company-adaptive-bootstrap"]:
             src = REPO / "hooks" / name
             dest = hooks_dir / name
             print(f"copy {src} -> {dest}")
@@ -91,8 +91,9 @@ def main():
 
     if args.enable_hooks:
         run(["openclaw", "hooks", "enable", "company-adaptive-logger"], args.dry_run)
-        print("Safe default enabled: company-adaptive-logger only.")
-        print("Bootstrap runtime injection remains disabled unless --enable-bootstrap is explicitly passed.")
+        run(["openclaw", "hooks", "enable", "company-adaptive-runtime-hints"], args.dry_run)
+        print("Safe default enabled: logger + low-risk runtime hints.")
+        print("Bootstrap full profile injection remains disabled unless --enable-bootstrap is explicitly passed.")
         print("NOTE: restart OpenClaw gateway once for newly discovered hooks to load.")
 
     if args.enable_bootstrap:

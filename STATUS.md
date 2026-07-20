@@ -15,6 +15,7 @@ The automatic components are reversible:
 ## Included automatic components
 
 - `company-adaptive-logger`: records redacted usage events from `message:received` and `message:sent`.
+- `company-adaptive-runtime-hints`: immediately learns low-risk preferences and injects at most 5 short hints during `message:preprocessed`.
 - `company-adaptive-bootstrap`: experimental; injects bounded adaptive profile context during `agent:bootstrap`; disabled by default.
 - `nightly_company_adaptive.sh`: runs nightly learning, self-repair, adoption report, low-risk apply, and validation.
 
@@ -25,3 +26,13 @@ The automatic components are reversible:
 - High-risk paths are rejected or pending.
 - Sensitive raw details are redacted / summarized.
 - Hooks and cron are opt-in and can be disabled.
+
+## v1.1 Runtime Hints
+
+`company-adaptive-runtime-hints` is now part of the safe default automation:
+
+- Immediate small updates: explicit low-risk preference corrections are written to `adaptive-openclaw/runtime_hints/discord_<id>.json`.
+- Next-message application: at `message:preprocessed`, up to 5 short hints are prepended to the agent body.
+- Allowed hint categories: length, format, tone, ask-before behavior, common output shape.
+- Forbidden: identity, department, permissions, RLS, secrets, customer details, salary, medical, contract, or raw sensitive content.
+- Full bootstrap profile injection remains experimental and disabled by default.
