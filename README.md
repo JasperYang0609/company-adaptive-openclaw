@@ -2,6 +2,34 @@
 
 公司級 OpenClaw 自適應導入流程：用固定 schema 與 deterministic scripts 維護 company / department / user / workflow 四層 profile，降低不同 LLM 對執行結果的影響。
 
+
+## Current status
+
+**Alpha / safe MVP.** This repository is safe to install because the first version only creates profile folders, templates, schemas, and deterministic scripts. It does **not** automatically enable OpenClaw runtime hooks or cron jobs.
+
+What works now:
+
+- Manual profile tree installation
+- Profile structure validation
+- Usage event logging by explicit script call
+- Nightly diff generation by explicit script call
+- Low-risk diff apply / reject gate
+- Profile snapshot and rollback script
+- Local OpenClaw skill instructions
+
+Not enabled yet:
+
+- Automatic Discord/message monitoring
+- Runtime prompt/profile injection hooks
+- Scheduled cron execution
+- Production customer wizard
+
+Customer install guidance:
+
+- OK for pilot setup, schema review, and manual testing.
+- Do not sell/describe it as fully automatic until hooks + cron pass integration tests.
+- To avoid model-dependent behavior, keep all writes routed through scripts; do not ask an LLM to edit profiles directly.
+
 ## Modes
 
 - `solo_team`: 小團隊 / 內部使用，不啟用 RLS。
