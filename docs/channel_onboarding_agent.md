@@ -56,3 +56,55 @@ Nightly learning should update channel recommendations from:
 - role-specific friction
 
 Identity, permission, RLS, secrets, and sensitive raw details must never auto-apply. They should stay pending or require administrator review.
+
+## Formal flowchart v1
+
+```mermaid
+flowchart TD
+  A[Customer creates a new Discord channel] --> B[OpenClaw starts Channel Onboarding Agent]
+
+  B --> C[Collect safe baseline context]
+  C --> C1[Channel name / category]
+  C --> C2[Creator user id]
+  C --> C3[Creator identity / position / permission boundary]
+  C --> C4[Initial topic, description, or first messages]
+
+  C1 --> D[Infer channel purpose]
+  C2 --> D
+  C3 --> D
+  C4 --> D
+
+  D --> E[Generate role-aware assistance menu]
+  E --> F[Ask: 依照你的角色，我可以協助你以下問題，你想先從哪個開始？]
+
+  F --> G[User chooses one direction]
+  G --> H[OpenClaw creates the first visible artifact]
+
+  H --> I{這比較像你要的嗎？}
+
+  I -->|Yes| J[Create formal workflow]
+  J --> J1[Create data path]
+  J --> J2[Create Notion / DB / document structure]
+  J --> J3[Create channel task menu]
+  J --> J4[Set daily / weekly reporting cadence]
+
+  I -->|Right direction, needs changes| K[Record correction]
+  K --> H
+
+  I -->|Not what I need| L[Return to menu and try another artifact]
+  L --> F
+
+  J --> M[Enable channel workflow]
+  M --> N[Record ongoing usage signals]
+  N --> N1[Selected options]
+  N --> N2[Accepted artifacts]
+  N --> N3[Corrections]
+  N --> N4[Blocked or unused steps]
+
+  N --> O[Optimize Channel Profile on a fixed cadence]
+  O --> P[Future replies fit this channel, role, and company better]
+```
+
+### Flow principle
+
+When a new channel is created, OpenClaw should not ask `What do you want to do?` first. It should infer the likely purpose from the channel, creator identity, position, and permission boundary; then offer role-aware options, produce a visible artifact, and let the user confirm or correct from there.
