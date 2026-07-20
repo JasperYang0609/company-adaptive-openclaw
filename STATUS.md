@@ -15,6 +15,7 @@ The automatic components are reversible:
 ## Included automatic components
 
 - `company-adaptive-logger`: records redacted usage events from `message:received` and `message:sent`.
+- `company-adaptive-runtime-hints`: immediately learns low-risk preferences and injects at most 5 short hints during `message:preprocessed`.
 - `company-adaptive-bootstrap`: experimental; injects bounded adaptive profile context during `agent:bootstrap`; disabled by default.
 - `nightly_company_adaptive.sh`: runs nightly learning, self-repair, adoption report, low-risk apply, and validation.
 

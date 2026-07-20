@@ -4,6 +4,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import logger from '../hooks/company-adaptive-logger/handler.ts';
 import bootstrap from '../hooks/company-adaptive-bootstrap/handler.ts';
+import runtimeHints from '../hooks/company-adaptive-runtime-hints/handler.ts';
 
 const tmp = await fs.mkdtemp(path.join(os.tmpdir(), 'company-adaptive-hook-'));
 await fs.mkdir(path.join(tmp, 'adaptive-openclaw/profiles/users'), { recursive: true });
@@ -26,4 +27,12 @@ process.env.OPENCLAW_WORKSPACE_DIR = tmp;
 await logger({ type: 'message', action: 'received', sessionKey: 's2', timestamp: new Date(), messages: [], context: { content: '請用表格', channelId: 'c2', metadata: { senderId: '789', provider: 'discord' } } });
 const log2 = await fs.readFile(path.join(tmp, 'adaptive-openclaw/events/usage_events.jsonl'), 'utf8');
 assert.match(log2, /"sender_id":"789"/);
+
+await runtimeHints({ type: 'message', action: 'received', sessionKey: 's3', timestamp: new Date(), messages: [], context: { workspaceDir: tmp, content: '下次請用表格，短一點', from: '123456', channelId: 'c3', metadata: { senderId: '123456', provider: 'discord' } } });
+const hintFile = await fs.readFile(path.join(tmp, 'adaptive-openclaw/runtime_hints/discord_123456.json'), 'utf8');
+assert.match(hintFile, /表格/);
+const pre = { type: 'message', action: 'preprocessed', sessionKey: 's3', timestamp: new Date(), messages: [], context: { workspaceDir: tmp, bodyForAgent: '請整理資料', from: '123456', channelId: 'c3', metadata: { senderId: '123456', provider: 'discord' } } };
+await runtimeHints(pre);
+assert.match(pre.context.bodyForAgent, /Adaptive runtime hints/);
+assert.match(pre.context.bodyForAgent, /表格/);
 console.log('PASS hook_event_test');
