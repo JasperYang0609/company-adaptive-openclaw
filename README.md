@@ -37,3 +37,13 @@ python3 scripts/validate_profiles.py --workspace /path/to/openclaw/workspace
 
 LLM 不直接改正式 profile；只能產生 schema-bound `profile_diff`。正式寫入由 scripts 驗證、snapshot、apply、rollback。
 
+
+## v1.1 Runtime Hints
+
+Safe default automation now includes immediate low-risk runtime hints:
+
+```text
+User correction -> runtime_hints json -> next message gets at most 5 short hints -> nightly job consolidates into profiles.
+```
+
+This gives users the feeling that OpenClaw immediately remembers preferences without injecting full profiles into the model context.

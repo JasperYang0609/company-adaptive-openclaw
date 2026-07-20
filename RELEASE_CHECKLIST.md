@@ -43,3 +43,10 @@ openclaw hooks disable company-adaptive-bootstrap
 launchctl unload ~/Library/LaunchAgents/ai.openclaw.company-adaptive.nightly.plist
 python3 scripts/rollback_profile.py --workspace "$HOME/.openclaw/workspace"
 ```
+
+## v1.1 runtime hints validation
+
+```bash
+node tests/hook_event_test.mjs
+# verifies low-risk hint learn + message:preprocessed injection
+```

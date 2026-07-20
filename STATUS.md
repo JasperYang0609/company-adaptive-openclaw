@@ -26,3 +26,13 @@ The automatic components are reversible:
 - High-risk paths are rejected or pending.
 - Sensitive raw details are redacted / summarized.
 - Hooks and cron are opt-in and can be disabled.
+
+## v1.1 Runtime Hints
+
+`company-adaptive-runtime-hints` is now part of the safe default automation:
+
+- Immediate small updates: explicit low-risk preference corrections are written to `adaptive-openclaw/runtime_hints/discord_<id>.json`.
+- Next-message application: at `message:preprocessed`, up to 5 short hints are prepended to the agent body.
+- Allowed hint categories: length, format, tone, ask-before behavior, common output shape.
+- Forbidden: identity, department, permissions, RLS, secrets, customer details, salary, medical, contract, or raw sensitive content.
+- Full bootstrap profile injection remains experimental and disabled by default.
