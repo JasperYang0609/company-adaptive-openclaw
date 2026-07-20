@@ -113,3 +113,18 @@ When a new channel or discussion thread is created, OpenClaw should not ask `Wha
 ## Discussion thread behavior
 
 Discussion threads should use the same onboarding flow as channels. The profile key should use the thread id, while preserving the parent channel id when available. This avoids treating every thread as a blank chat and lets OpenClaw infer whether the thread is a sub-workflow, a project branch, or a temporary discussion under an existing channel.
+
+## Discord presentation rule
+
+Do not paste raw Mermaid flowchart blocks as the primary user-facing diagram in Discord. They are hard to read on mobile and make customer-side confirmation feel technical.
+
+For Discord, customer onboarding, and on-site review:
+
+- Use PNG / SVG / Notion visual blocks as the primary artifact.
+- Keep Mermaid only as engineering source or documentation reference.
+- If a flowchart is requested in chat, generate and attach a visual file instead of sending a large code block.
+- Keep the diagram to 5-9 main steps and use short labels suitable for mobile screens.
+
+Recommended customer-facing diagram asset:
+
+![Channel / Thread Onboarding Flow](assets/channel_thread_onboarding_flow_v1.png)
