@@ -1,0 +1,8 @@
+{
+  "name": "company-adaptive-openclaw-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hook skeleton for Company-Adaptive OpenClaw. Enable only after local validation.",
+  "type": "module",
+  "openclaw": { "extensions": ["./dist/index.js"] }
+}

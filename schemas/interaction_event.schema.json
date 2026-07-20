@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "interaction_event.v1",
+  "type": "object",
+  "required": ["event_id", "timestamp", "platform", "sender_id", "channel_id", "task_type"],
+  "properties": {
+    "event_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "platform": {"type": "string"},
+    "sender_id": {"type": "string"},
+    "channel_id": {"type": "string"},
+    "department_key": {"type": "string"},
+    "task_type": {"type": "string"},
+    "requested_output_format": {"type": "string"},
+    "correction_signal": {"type": "string"},
+    "success_signal": {"type": "string"},
+    "artifact_delivered": {"type": "boolean"}
+  },
+  "additionalProperties": true
+}

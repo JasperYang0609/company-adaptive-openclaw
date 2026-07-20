@@ -1,0 +1,10 @@
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+dist/
+.env
+*.log
+adaptive-openclaw/events/*.jsonl
+adaptive-openclaw/history/
+adaptive-openclaw/diffs/

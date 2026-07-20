@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "profile_diff.v1",
+  "type": "object",
+  "required": ["target_type", "target_id", "operation", "path", "value", "risk_level", "confidence", "evidence_count", "evidence_summary", "auto_apply"],
+  "properties": {
+    "target_type": {"enum": ["company_profile", "department_profile", "user_profile", "workflow_profile"]},
+    "target_id": {"type": "string", "minLength": 1},
+    "operation": {"enum": ["upsert_preference", "append_rule", "append_prompt", "append_repair_note", "set_field"]},
+    "path": {"type": "string", "minLength": 1},
+    "value": {},
+    "risk_level": {"enum": ["low", "medium", "high", "forbidden"]},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "evidence_count": {"type": "integer", "minimum": 1},
+    "evidence_summary": {"type": "string"},
+    "source_event_ids": {"type": "array", "items": {"type": "string"}},
+    "auto_apply": {"type": "boolean"}
+  },
+  "additionalProperties": false
+}
