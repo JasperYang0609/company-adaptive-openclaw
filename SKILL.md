@@ -30,6 +30,8 @@ Do not directly edit official profiles from free-form reasoning. Use determinist
 - Low-risk preferences may auto-apply after schema validation.
 - Identity, department, permissions, RLS, secrets, sensitive raw details, external sends, and system config changes never auto-apply.
 - If uncertain, produce a pending diff, not a profile write.
+- Raw `usage_events.jsonl` is local operational state and must not be shared. For developer/customer sharing, use `scripts/export_usage_events.py`; for adoption summaries, use `scripts/generate_adoption_report.py`.
+- Safe telemetry outputs must use pseudonymous aliases, exclude raw content summaries, and report skipped invalid lines.
 
 ## Channel onboarding layer
 

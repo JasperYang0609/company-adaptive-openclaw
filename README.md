@@ -38,6 +38,19 @@ python3 scripts/validate_profiles.py --workspace /path/to/openclaw/workspace
 LLM 不直接改正式 profile；只能產生 schema-bound `profile_diff`。正式寫入由 scripts 驗證、snapshot、apply、rollback。
 
 
+## Telemetry privacy boundary
+
+Raw sender/channel identifiers stay inside the local `adaptive-openclaw/events` store because profile learning needs stable local references. Do not share that JSONL file with developers or external systems.
+
+Use the safe outputs instead:
+
+```bash
+python3 scripts/generate_adoption_report.py --workspace /path/to/openclaw/workspace
+python3 scripts/export_usage_events.py --workspace /path/to/openclaw/workspace
+```
+
+Both paths tolerate and count invalid legacy lines. Reports and exports use stable per-workspace pseudonymous aliases; safe exports exclude raw identifiers, session keys, channel names, and content summaries. The local export salt is created with owner-only permissions and must not be committed or bundled.
+
 ## v1.1 Runtime Hints
 
 Safe default automation now includes immediate low-risk runtime hints:

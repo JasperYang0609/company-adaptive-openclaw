@@ -8,3 +8,4 @@ dist/
 adaptive-openclaw/events/*.jsonl
 adaptive-openclaw/history/
 adaptive-openclaw/diffs/
+adaptive-openclaw/config/telemetry_export_salt
