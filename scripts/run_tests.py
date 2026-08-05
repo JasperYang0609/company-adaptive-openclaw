@@ -46,6 +46,8 @@ def main():
         run([PY, "scripts/generate_adoption_report.py", "--workspace", str(tmp)])
         run([PY, "scripts/rollback_profile.py", "--workspace", str(tmp)])
         run([PY, "scripts/validate_profiles.py", "--workspace", str(tmp)])
+        run([PY, "tests/test_telemetry_integrity.py"])
+        run(["node", "tests/hook_event_test.mjs"])
         print("PASS")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

@@ -9,6 +9,39 @@ const REDACT_PATTERNS = [
   /\b\+?\d[\d\s\-()]{7,}\d\b/g,
 ];
 
+function normalizeUnicode(value) {
+  const text = String(value ?? "");
+  let normalized = "";
+  for (let index = 0; index < text.length; index += 1) {
+    const code = text.charCodeAt(index);
+    if (code >= 0xd800 && code <= 0xdbff) {
+      const next = text.charCodeAt(index + 1);
+      if (next >= 0xdc00 && next <= 0xdfff) {
+        normalized += text[index] + text[index + 1];
+        index += 1;
+      } else {
+        normalized += "\uFFFD";
+      }
+    } else if (code >= 0xdc00 && code <= 0xdfff) {
+      normalized += "\uFFFD";
+    } else {
+      normalized += text[index];
+    }
+  }
+  return normalized.normalize("NFC");
+}
+
+function normalizeJsonValue(value) {
+  if (typeof value === "string") return normalizeUnicode(value);
+  if (Array.isArray(value)) return value.map(normalizeJsonValue);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [normalizeUnicode(key), normalizeJsonValue(item)]),
+    );
+  }
+  return value;
+}
+
 function workspaceDir(event) {
   const explicit = event?.context?.workspaceDir || process.env.OPENCLAW_WORKSPACE_DIR || process.env.OPENCLAW_WORKSPACE;
   if (explicit) return explicit;
@@ -17,7 +50,7 @@ function workspaceDir(event) {
 }
 
 function redact(text) {
-  let value = String(text || "").slice(0, 1600);
+  let value = normalizeUnicode(text).slice(0, 1600);
   for (const pattern of REDACT_PATTERNS) value = value.replace(pattern, "[REDACTED]");
   return value;
 }
@@ -48,7 +81,9 @@ function correctionSignal(content) {
 
 async function appendJsonl(file, obj) {
   await fs.mkdir(path.dirname(file), { recursive: true });
-  await fs.appendFile(file, JSON.stringify(obj) + "\n", "utf8");
+  const line = JSON.stringify(normalizeJsonValue(obj));
+  JSON.parse(line);
+  await fs.appendFile(file, line + "\n", { encoding: "utf8" });
 }
 
 export default async function handler(event) {

@@ -2,19 +2,55 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "interaction_event.v1",
   "type": "object",
-  "required": ["event_id", "timestamp", "platform", "sender_id", "channel_id", "task_type"],
+  "required": [
+    "event_id",
+    "timestamp",
+    "platform",
+    "sender_id",
+    "channel_id",
+    "task_type"
+  ],
   "properties": {
-    "event_id": {"type": "string"},
-    "timestamp": {"type": "string"},
-    "platform": {"type": "string"},
-    "sender_id": {"type": "string"},
-    "channel_id": {"type": "string"},
-    "department_key": {"type": "string"},
-    "task_type": {"type": "string"},
-    "requested_output_format": {"type": "string"},
-    "correction_signal": {"type": "string"},
-    "success_signal": {"type": "string"},
-    "artifact_delivered": {"type": "boolean"}
+    "event_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "platform": {
+      "type": "string"
+    },
+    "sender_id": {
+      "type": "string",
+      "description": "Local-only stable sender identifier. Never include in developer/customer exports."
+    },
+    "channel_id": {
+      "type": "string",
+      "description": "Local-only stable channel identifier. Never include in developer/customer exports."
+    },
+    "department_key": {
+      "type": "string"
+    },
+    "task_type": {
+      "type": "string"
+    },
+    "requested_output_format": {
+      "type": "string"
+    },
+    "correction_signal": {
+      "type": "string"
+    },
+    "success_signal": {
+      "type": "string"
+    },
+    "artifact_delivered": {
+      "type": "boolean"
+    },
+    "content_summary": {
+      "type": "string",
+      "description": "Bounded local summary. Excluded from safe exports."
+    }
   },
-  "additionalProperties": true
+  "additionalProperties": true,
+  "description": "Local operational event schema. Raw identifiers are allowed only in the local event store; external sharing must use the pseudonymous export script."
 }

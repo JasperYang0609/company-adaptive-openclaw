@@ -34,6 +34,11 @@ await logger({ type: 'message', action: 'received', sessionKey: 's2', timestamp:
 const log2 = await fs.readFile(path.join(tmp, 'adaptive-openclaw/events/usage_events.jsonl'), 'utf8');
 assert.match(log2, /"sender_id":"789"/);
 
+await logger({ type: 'message', action: 'received', sessionKey: 's-surrogate', timestamp: new Date(), messages: [], context: { workspaceDir: tmp, content: 'broken \uD800 text', channelId: 'surrogate-\uD800-channel', metadata: { senderId: 'surrogate-\uD800-user', provider: 'discord' } } });
+const normalizedLog = await fs.readFile(path.join(tmp, 'adaptive-openclaw/events/usage_events.jsonl'), 'utf8');
+assert.doesNotMatch(normalizedLog, /\\ud800/i);
+for (const line of normalizedLog.trim().split('\n')) JSON.parse(line);
+
 await runtimeHints({ type: 'message', action: 'received', sessionKey: 's3', timestamp: new Date(), messages: [], context: { workspaceDir: tmp, content: '下次請用表格，短一點', from: '123456', channelId: 'c3', metadata: { senderId: '123456', provider: 'discord' } } });
 const hintFile = await fs.readFile(path.join(tmp, 'adaptive-openclaw/runtime_hints/discord_123456.json'), 'utf8');
 assert.match(hintFile, /表格/);
