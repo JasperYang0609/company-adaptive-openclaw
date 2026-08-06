@@ -47,6 +47,7 @@ def main():
         run([PY, "scripts/rollback_profile.py", "--workspace", str(tmp)])
         run([PY, "scripts/validate_profiles.py", "--workspace", str(tmp)])
         run([PY, "tests/test_telemetry_integrity.py"])
+        run([PY, "-m", "unittest", "-v", "tests/test_skill_lifecycle.py"])
         run(["node", "tests/hook_event_test.mjs"])
         print("PASS")
     finally:
