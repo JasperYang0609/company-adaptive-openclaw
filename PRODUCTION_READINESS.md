@@ -129,3 +129,11 @@ Acceptance criteria:
 - Runtime hints can detect a channel profile and steer the assistant to offer role-aware options instead of asking for a prompt.
 - Nightly learning can update low-risk channel recommendations from usage events.
 - Identity, permission, RLS, secrets, and sensitive raw details remain deny-by-default and must not auto-apply.
+
+## Skill lifecycle telemetry boundary
+
+- Available as an explicit-adapter CLI contract; not enabled automatically.
+- Collection is privacy-minimal at source and rejects raw identity/content/error fields.
+- Reports are aggregate-only and count malformed, duplicate, and anomalous legacy lines.
+- Coverage is partial by design: no event means "not observed by an adapter", not "Skill unused".
+- Core-wide automatic instrumentation, production hook enablement, retention policy, and external reporting require separate approval.

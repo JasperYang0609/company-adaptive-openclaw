@@ -18,6 +18,7 @@ What works now:
 - Low-risk diff apply / high-risk reject gate
 - Profile snapshot and rollback script
 - Release test runner and hook event test
+- Privacy-minimal, explicit-adapter Skill lifecycle telemetry and aggregate reporting
 
 Important: hooks and cron are opt-in. This is intentional so customer installs remain reversible. After enabling hooks, restart OpenClaw Gateway once for newly discovered hooks to load.
 
@@ -50,6 +51,18 @@ python3 scripts/export_usage_events.py --workspace /path/to/openclaw/workspace
 ```
 
 Both paths tolerate and count invalid legacy lines. Reports and exports use stable per-workspace pseudonymous aliases; safe exports exclude raw identifiers, session keys, channel names, and content summaries. The local export salt is created with owner-only permissions and must not be committed or bundled.
+
+### Skill lifecycle telemetry (explicit adapter only)
+
+Owned adapters can record `shown / selected / started / completed / failed / abandoned / corrected` without sender, channel, session, message, prompt, customer, path, stack-trace, or free-form error fields:
+
+```bash
+python3 scripts/log_skill_lifecycle.py new-journey
+python3 scripts/log_skill_lifecycle.py record --workspace /path/to/workspace --journey-id jrn_... --skill-key summary-backup --stage shown --source recommendation
+python3 scripts/generate_skill_lifecycle_report.py --workspace /path/to/workspace
+```
+
+Coverage is **`explicit_adapter_only`**. Missing events do not prove that a Skill was not shown or used, and this Repository does not patch or automatically instrument OpenClaw Core. Reports contain aggregate categorical counts only. See `references/skill_lifecycle_telemetry.md`.
 
 ## v1.1 Runtime Hints
 

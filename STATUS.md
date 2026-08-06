@@ -47,3 +47,11 @@ Added first-class channel profile support for customer Discord channel/thread on
 - logger support for channel-created events when available
 - nightly channel recommendation diffs
 - runtime hints and optional bootstrap awareness of channel profiles
+
+## OCF-018 privacy-minimal Skill lifecycle telemetry
+
+- Status: implemented in an owned adapter/CLI layer; production enablement remains off.
+- Stages: shown, selected, started, completed, failed, abandoned, corrected.
+- Storage: local privacy-minimal JSONL with exact field allowlist and idempotent locked writes.
+- Reporting: aggregate-only with malformed/duplicate/transition anomaly counters.
+- Coverage: `explicit_adapter_only`; OpenClaw Core automatic instrumentation is not claimed.

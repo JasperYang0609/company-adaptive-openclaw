@@ -32,6 +32,13 @@ Do not directly edit official profiles from free-form reasoning. Use determinist
 - If uncertain, produce a pending diff, not a profile write.
 - Raw `usage_events.jsonl` is local operational state and must not be shared. For developer/customer sharing, use `scripts/export_usage_events.py`; for adoption summaries, use `scripts/generate_adoption_report.py`.
 - Safe telemetry outputs must use pseudonymous aliases, exclude raw content summaries, and report skipped invalid lines.
+- Skill lifecycle telemetry is explicit-adapter only. Its event allowlist forbids raw user/channel/session/message/content/error/customer/path fields; absence of an event is not evidence of non-use.
+
+## Skill lifecycle telemetry
+
+Use `scripts/log_skill_lifecycle.py` only from an owned, explicitly instrumented adapter. Record a canonical public Skill key plus bounded lifecycle categories; never encode customer or user information into `skill_key`. Generate aggregate-only output with `scripts/generate_skill_lifecycle_report.py`.
+
+This layer does not automatically observe OpenClaw Core. Do not calculate an all-traffic adoption rate unless the same adapter reliably records its `shown` denominator. Read `references/skill_lifecycle_telemetry.md` before enabling an adapter.
 
 ## Channel onboarding layer
 

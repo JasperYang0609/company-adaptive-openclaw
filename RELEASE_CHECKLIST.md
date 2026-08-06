@@ -50,3 +50,10 @@ python3 scripts/rollback_profile.py --workspace "$HOME/.openclaw/workspace"
 node tests/hook_event_test.mjs
 # verifies low-risk hint learn + message:preprocessed injection
 ```
+
+## Skill lifecycle telemetry gate
+
+- `schemas/skill_lifecycle_event.schema.json` and the Python `EVENT_FIELDS` allowlist match exactly.
+- All seven stages, transition failures, terminal behavior, duplicate/concurrent append, malformed-line reporting, and privacy canaries pass.
+- Generated lifecycle reports contain aggregates only and declare `explicit_adapter_only` coverage.
+- No production hook, scheduler, migration, external send, or OpenClaw Core instrumentation is enabled by this release.

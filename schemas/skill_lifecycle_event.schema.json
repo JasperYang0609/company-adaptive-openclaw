@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "skill_lifecycle_event.v1",
+  "description": "Privacy-minimal explicit-adapter lifecycle event. Raw user, channel, session, message, content, customer, path, and error text fields are forbidden.",
+  "type": "object",
+  "required": [
+    "schema",
+    "instrumentation",
+    "event_id",
+    "journey_id",
+    "timestamp",
+    "skill_key",
+    "stage",
+    "attempt",
+    "source",
+    "reason_code",
+    "duration_bucket",
+    "output_kind"
+  ],
+  "properties": {
+    "schema": {
+      "const": "company-adaptive-skill-lifecycle/v1"
+    },
+    "instrumentation": {
+      "const": "explicit_adapter"
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^lce_[0-9a-f]{16}$"
+    },
+    "journey_id": {
+      "type": "string",
+      "pattern": "^jrn_[0-9a-f]{32}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40
+    },
+    "skill_key": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$"
+    },
+    "stage": {
+      "enum": [
+        "shown",
+        "selected",
+        "started",
+        "completed",
+        "failed",
+        "abandoned",
+        "corrected"
+      ]
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 999
+    },
+    "source": {
+      "enum": [
+        "recommendation",
+        "direct_request",
+        "agent_route",
+        "automation",
+        "unknown"
+      ]
+    },
+    "reason_code": {
+      "enum": [
+        "none",
+        "user_cancelled",
+        "superseded",
+        "timeout",
+        "preflight_blocked",
+        "unsupported",
+        "permission_denied",
+        "validation_failed",
+        "tool_error",
+        "provider_error",
+        "delivery_failed",
+        "user_correction",
+        "unknown_failure"
+      ]
+    },
+    "duration_bucket": {
+      "enum": [
+        "not_recorded",
+        "lt_1s",
+        "1s_10s",
+        "10s_60s",
+        "1m_5m",
+        "5m_30m",
+        "gte_30m"
+      ]
+    },
+    "output_kind": {
+      "enum": [
+        "none",
+        "text",
+        "file",
+        "external_write",
+        "notification",
+        "mixed"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

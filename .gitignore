@@ -9,3 +9,5 @@ adaptive-openclaw/events/*.jsonl
 adaptive-openclaw/history/
 adaptive-openclaw/diffs/
 adaptive-openclaw/config/telemetry_export_salt
+adaptive-openclaw/config/skill_lifecycle_salt
+adaptive-openclaw/config/.skill_lifecycle_salt.lock
