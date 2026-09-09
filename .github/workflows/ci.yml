@@ -2,7 +2,13 @@ name: CI
 
 on:
   push:
+    branches: [main]
   pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -23,3 +29,5 @@ jobs:
         run: python3 -m compileall -q scripts tests
       - name: Run release tests
         run: python3 scripts/run_tests.py
+      - name: Verify CI workflow contract
+        run: python3 tests/test_ci_workflow_contract.py

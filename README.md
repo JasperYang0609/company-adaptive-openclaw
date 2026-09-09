@@ -2,6 +2,8 @@
 
 公司級 OpenClaw 自適應導入流程：用固定 schema 與 deterministic scripts 維護 company / department / user / workflow 四層 profile，降低不同 LLM 對執行結果的影響。
 
+開發者應累積到可驗證版本並先執行 `bash scripts/check_push.sh` 才 push。非 `main` 分支跑聚焦 Branch Check；pull request／`main` 跑完整 CI；已有 open PR 時不重跑 branch tests，同分支或 PR 的舊 run 會自動取消，真正失敗通知保留。
+
 
 ## Current status
 
